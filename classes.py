@@ -36,7 +36,14 @@ class Player():
 		self.x = x
 		self.y = y
 		self.anim_state = "idle"
-		#print("Player succesfully created")
+
+	def move(self, movement_direction, run_pressed, jump_pressed):
+		if movement_direction == "LEFT":
+			self.speed_x = -5
+
+	def update(self):
+		self.speed_x = self.x + self.speed_x
+
 
 class Camera(object):
 	""" Camera class, heavily inspired by:
