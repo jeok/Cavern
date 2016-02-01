@@ -36,16 +36,18 @@ batch_fg, sprites_fg = game_utils.create_batch_from_tileset(tiled_map, "Foregrou
 
 # Init player
 # Player object that has all sorts of fun attributes
-player = classes.Player(TILE_SIZE * 2, SCREEN_HEIGHT - TILE_SIZE * 5)
+player = classes.Player(TILE_SIZE * 4, SCREEN_HEIGHT - TILE_SIZE * 4)
+#player = classes.Player(200, 416)
 # Player sprite
 player_sprite = pyglet.sprite.Sprite(player_image, player.x - player.size_x / 2 , player.y)
 
-fps_display = pyglet.clock.ClockDisplay()
+fps_display = pyglet.clock.ClockDisplay() # Display fps
 
 #Define events
 
 
 #ITS FROM HELL
+# Yes it is.
 
 
 def update(dt):
@@ -54,7 +56,7 @@ def update(dt):
 	# camera movement
 	keyboard_input = game_utils.check_keys(keys)
 	player.move(keyboard_input[0], keyboard_input[1], keyboard_input[2])
-	player.update()
+	player.update(tiled_map)
 	player_sprite.x = player.x
 
 pyglet.clock.schedule_interval(update, 1/60.0)

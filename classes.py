@@ -52,10 +52,19 @@ class Player():
 			self.speed_x = 1
 
 	def update(self, collisionmap):
+		"""
+		Update method which checks if player can move.
+		Collision detection works as such:
+		See if player's future position is legal according to tilemap's foreground layer (layer 1)
+		"""
+		# If player's going left, boundaries need to aknowledge player's size_x
 		future_x = self.x + self.speed_x
-		collisionmap.get_tile_gid()
-		#print("Position " + str(self.x))
-		#print("Speed " + str(self.speed_x))
+		compensation_x = 0
+		if self.speed_x	> 0:
+			compensation_x = self.size_x
+		if collisionmap.get_tile_gid((future_x + compensation_x) / self.size_x, (480 - self.y) / self.size_y, 1) == 0:
+			self.x = future_x
+
 
 class Camera(object):
 	""" Camera class, heavily inspired by:
