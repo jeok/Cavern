@@ -3,7 +3,9 @@
 
 import pyglet
 import pytmx.util_pyglet
-import gameobj
+import game_utils
+import classes
+
 
 SCREEN_HEIGHT = 480
 SCREEN_WIDTH = 640
@@ -21,27 +23,14 @@ tiled_map = pytmx.util_pyglet.load_pyglet("testlevel1.tmx")
 # Load image used for player sprite
 player_image = pyglet.resource.image("player.png")
 
-# Empty batches for sprites separated by their layers
-batch_bg = pyglet.graphics.Batch()
-batch_fg = pyglet.graphics.Batch()
-batch_obj = pyglet.graphics.Batch()
-
-# Empty lists for saving sprites
-bg_images = []
-fg_images = []
-obj_images = []
-
 # Separate each tile from a map layer and create a sprite from it
 # Each sprite is added to a list
-for tile in tiled_map.get_layer_by_name("Background").tiles():
-	bg_images.append(pyglet.sprite.Sprite(tile[2], tile[0] * TILE_SIZE, SCREEN_HEIGHT - tile[1] * TILE_SIZE - TILE_SIZE, batch=batch_bg))
-
-for tile in tiled_map.get_layer_by_name("Foreground").tiles():
-	fg_images.append(pyglet.sprite.Sprite(tile[2], tile[0] * TILE_SIZE, SCREEN_HEIGHT - tile[1] * TILE_SIZE - TILE_SIZE, batch=batch_fg))
+batch_bg, sprites_bg = game_utils.create_batch_from_tileset(tiled_map, "Background")
+batch_fg, sprites_fg = game_utils.create_batch_from_tileset(tiled_map, "Foreground")
 
 # Init player
 # Player object that has all sorts of fun attributes
-player = gameobj.Player(TILE_SIZE * 2, SCREEN_HEIGHT - TILE_SIZE * 5)
+player = classes.Player(TILE_SIZE * 2, SCREEN_HEIGHT - TILE_SIZE * 5)
 # Player sprite
 player_sprite = pyglet.sprite.Sprite(player_image, player.x, player.y)
 
