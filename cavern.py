@@ -2,6 +2,7 @@
 # Written in Python3 utilizes Pyglet heavily
 
 import pyglet
+from pyglet.window import key
 import pytmx.util_pyglet
 import game_utils
 import classes
@@ -14,6 +15,9 @@ TILE_SIZE = 16
 # Initialize window
 window = pyglet.window.Window(width=SCREEN_WIDTH, height=SCREEN_HEIGHT)
 
+# Create KeyStateHandler for holding keyboard state and push it to window's event stack
+keys = key.KeyStateHandler()
+window.push_handler(keys)
 
 
 # Load resources below
@@ -42,7 +46,7 @@ fps_display = pyglet.clock.ClockDisplay()
 
 @window.event
 def on_key_press(symbol, modifiers):
-	movedir = ""
+	movedir = "NONE"
 	jump_pressed = False
 	run_pressed = True
 
@@ -50,23 +54,25 @@ def on_key_press(symbol, modifiers):
 		movedir = "LEFT"
 	elif symbol == key.RIGHT:
 		movedir = "RIGHT"
+	else:
+		movedir = "NONE"
 
 	if symbol == key.SPACE:
 		jump_pressed = True
 
-	if symbol == key_SHIFT:
+	if modifiers == key.LSHIFT:
 		run_pressed = True
 
+
 	player.move(movedir, jump_pressed, run_pressed)
-
-
 
 
 def update(dt):
 	# Things that need to be checked:
 	# player movement
 	# camera movement
-	pass
+	player.update()
+	player_sprite.x = player.x
 
 pyglet.clock.schedule_interval(update, 1/60.0)
 

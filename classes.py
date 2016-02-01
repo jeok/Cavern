@@ -38,12 +38,18 @@ class Player():
 		self.anim_state = "idle"
 
 	def move(self, movement_direction, run_pressed, jump_pressed):
+		if movement_direction == "NONE":
+			self.speed_x = 0
+			self.speed_y = 0
 		if movement_direction == "LEFT":
-			self.speed_x = -5
+			self.speed_x = -1
+		elif movement_direction == "RIGHT":
+			self.speed_x = 1
 
 	def update(self):
-		self.speed_x = self.x + self.speed_x
-
+		self.x = self.x + self.speed_x
+		#print("Position " + str(self.x))
+		#print("Speed " + str(self.speed_x))
 
 class Camera(object):
 	""" Camera class, heavily inspired by:
