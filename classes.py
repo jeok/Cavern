@@ -1,5 +1,6 @@
 # This module includes classes for building various game objects
 import pyglet
+import pytmx.util_pyglet
 
 class Rect():
 	"""
@@ -35,7 +36,11 @@ class Player():
 		self.speed_y = 0
 		self.x = x
 		self.y = y
+		self.size_x = 16
+		self.size_y = 16
+
 		self.anim_state = "idle"
+
 
 	def move(self, movement_direction, run_pressed, jump_pressed):
 		if movement_direction == "NONE":
@@ -46,8 +51,9 @@ class Player():
 		elif movement_direction == "RIGHT":
 			self.speed_x = 1
 
-	def update(self):
-		self.x = self.x + self.speed_x
+	def update(self, collisionmap):
+		future_x = self.x + self.speed_x
+		collisionmap.get_tile_gid()
 		#print("Position " + str(self.x))
 		#print("Speed " + str(self.speed_x))
 

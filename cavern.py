@@ -38,39 +38,22 @@ batch_fg, sprites_fg = game_utils.create_batch_from_tileset(tiled_map, "Foregrou
 # Player object that has all sorts of fun attributes
 player = classes.Player(TILE_SIZE * 2, SCREEN_HEIGHT - TILE_SIZE * 5)
 # Player sprite
-player_sprite = pyglet.sprite.Sprite(player_image, player.x, player.y)
+player_sprite = pyglet.sprite.Sprite(player_image, player.x - player.size_x / 2 , player.y)
 
 fps_display = pyglet.clock.ClockDisplay()
 
 #Define events
 
-@window.event
-def on_key_press(symbol, modifiers):
-	movedir = "NONE"
-	jump_pressed = False
-	run_pressed = True
 
-	if symbol == key.LEFT:
-		movedir = "LEFT"
-	elif symbol == key.RIGHT:
-		movedir = "RIGHT"
-	else:
-		movedir = "NONE"
-
-	if symbol == key.SPACE:
-		jump_pressed = True
-
-	if modifiers == key.LSHIFT:
-		run_pressed = True
-
-
-	player.move(movedir, jump_pressed, run_pressed)
+#ITS FROM HELL
 
 
 def update(dt):
 	# Things that need to be checked:
 	# player movement
 	# camera movement
+	keyboard_input = game_utils.check_keys(keys)
+	player.move(keyboard_input[0], keyboard_input[1], keyboard_input[2])
 	player.update()
 	player_sprite.x = player.x
 
