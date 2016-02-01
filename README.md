@@ -9,7 +9,7 @@ To play **Cavern** you need these modules installed:
 - pyglet
 - pytmx
 
-#### Linux/OS X
+#### If you have pip installed:
 `pip install pyglet pytmx`
 
 ## Todo
