@@ -14,6 +14,8 @@ TILE_SIZE = 16
 # Initialize window
 window = pyglet.window.Window(width=SCREEN_WIDTH, height=SCREEN_HEIGHT)
 
+
+
 # Load resources below
 
 # Load tileset
@@ -35,6 +37,30 @@ player = classes.Player(TILE_SIZE * 2, SCREEN_HEIGHT - TILE_SIZE * 5)
 player_sprite = pyglet.sprite.Sprite(player_image, player.x, player.y)
 
 fps_display = pyglet.clock.ClockDisplay()
+
+#Define events
+
+@window.event
+def on_key_press(symbol, modifiers):
+	movedir = ""
+	jump_pressed = False
+	run_pressed = True
+
+	if symbol == key.LEFT:
+		movedir = "LEFT"
+	elif symbol == key.RIGHT:
+		movedir = "RIGHT"
+
+	if symbol == key.SPACE:
+		jump_pressed = True
+
+	if symbol == key_SHIFT:
+		run_pressed = True
+
+	player.move(movedir, jump_pressed, run_pressed)
+
+
+
 
 def update(dt):
 	# Things that need to be checked:
