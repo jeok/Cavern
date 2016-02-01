@@ -17,7 +17,7 @@ window = pyglet.window.Window(width=SCREEN_WIDTH, height=SCREEN_HEIGHT)
 
 # Create KeyStateHandler for holding keyboard state and push it to window's event stack
 keys = key.KeyStateHandler()
-window.push_handler(keys)
+window.push_handlers(keys)
 
 
 # Load resources below
