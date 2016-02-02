@@ -11,14 +11,18 @@ class Rect():
 		self.y = y
 		self.width = width
 		self.height = height
-		self.coordinates = []
 		self.topleft = (x, y + height)
 		self.topright = (x + width, y + height)
 		self.middle = (self.topright[0] / 2, self.topright[1] / 2)
+		self.right = self.x + width
 
-		for n in range(self.y, height + 1):
-			for m in range(self.x, width + 1):
-				self.coordinates.append((x, y))
+	def move(self, x_delta, y_delta):
+		self.x = self.x + x_delta
+		self.y = self.y + y_delta
+		self.topleft = (self.topleft[0] + x_delta, self.topleft[1] + y_delta)
+		self.topright = (self.topright[0] + x_delta, self.topright[0] + y_delta)
+		self.middle = (self.middle[0] + x_delta, self.middle[1] + y_delta)
+		self.right = self.right + x_delta
 
 class Player():
 	""" Class for player
@@ -40,6 +44,8 @@ class Player():
 		self.size_y = 16
 
 		self.anim_state = "idle"
+		# Create a rectangular for collision detection
+		collision_box = Rect(self.x, self.y, self.size_x, self.size_y)
 
 
 	def move(self, movement_direction, run_pressed, jump_pressed):
