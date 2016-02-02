@@ -33,8 +33,10 @@ def check_keys(keys):
 	else:
 		movedir = "NONE"
 
-	if keys[key.SPACE]:
+	if keys[key.UP]:
 		jump_pressed = True
+	else:
+		jump_pressed = False
 
 	if keys[key.LSHIFT]:
 		run_pressed = True

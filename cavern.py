@@ -11,6 +11,7 @@ import classes
 SCREEN_HEIGHT = 480
 SCREEN_WIDTH = 640
 TILE_SIZE = 16
+GRAVITY = -1
 
 # Initialize window
 window = pyglet.window.Window(width=SCREEN_WIDTH, height=SCREEN_HEIGHT)
@@ -56,8 +57,10 @@ def update(dt):
 	# camera movement
 	keyboard_input = game_utils.check_keys(keys)
 	player.move(keyboard_input[0], keyboard_input[1], keyboard_input[2])
-	player.update(tiled_map)
+	player.update(tiled_map, GRAVITY)
+
 	player_sprite.x = player.x
+	player_sprite.y = player.y - 1
 
 pyglet.clock.schedule_interval(update, 1/60.0)
 
