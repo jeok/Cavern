@@ -16,7 +16,8 @@ GRAVITY = -1
 # Initialize window
 window = pyglet.window.Window(width=SCREEN_WIDTH, height=SCREEN_HEIGHT)
 
-# Create KeyStateHandler for holding keyboard state and push it to window's event stack
+# Create KeyStateHandler for holding keyboard state and push it to
+# window's event stack
 keys = key.KeyStateHandler()
 window.push_handlers(keys)
 
@@ -35,43 +36,40 @@ player_image = pyglet.resource.image("player.png")
 batch_bg, sprites_bg = game_utils.create_batch_from_tileset(tiled_map, "Background")
 batch_fg, sprites_fg = game_utils.create_batch_from_tileset(tiled_map, "Foreground")
 
-# Init player
-# Player object that has all sorts of fun attributes
+# Initialize player
 player = classes.Player(TILE_SIZE * 4, SCREEN_HEIGHT - TILE_SIZE * 4)
-#player = classes.Player(200, 416)
 # Player sprite
-player_sprite = pyglet.sprite.Sprite(player_image, player.x - player.size_x / 2 , player.y)
+player_sprite = pyglet.sprite.Sprite(
+    player_image, player.x - player.size_x / 2, player.y)
 
-fps_display = pyglet.clock.ClockDisplay() # Display fps
-
-#Define events
+fps_display = pyglet.clock.ClockDisplay()  # Display fps
 
 
-#ITS FROM HELL
+# ITS FROM HELL
 # Yes it is.
 
 
 def update(dt):
-	# Things that need to be checked:
-	# player movement
-	# camera movement
-	keyboard_input = game_utils.check_keys(keys)
-	player.move(keyboard_input[0], keyboard_input[1], keyboard_input[2])
-	player.update(tiled_map, GRAVITY)
+    # Things that need to be checked:
+    # player movement
+    # camera movement
+    keyboard_input = game_utils.check_keys(keys)
+    player.move(keyboard_input[0], keyboard_input[1], keyboard_input[2])
+    player.update(tiled_map, GRAVITY)
 
-	player_sprite.x = player.x
-	player_sprite.y = player.y - 1
+    player_sprite.x = player.x
+    player_sprite.y = player.y - 1      # Not a dirty hack at all ":D"
 
-pyglet.clock.schedule_interval(update, 1/60.0)
+pyglet.clock.schedule_interval(update, 1 / 60.0)
+
 
 @window.event
 def on_draw():
-	# What to do when drawing a window:
-	window.clear()
-	batch_bg.draw()
-	batch_fg.draw()
-	player_sprite.draw()
-	fps_display.draw()
+    # What to do when drawing a window:
+    window.clear()
+    batch_bg.draw()
+    batch_fg.draw()
+    player_sprite.draw()
+    fps_display.draw()
 
 pyglet.app.run()
-
