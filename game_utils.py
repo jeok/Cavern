@@ -46,3 +46,41 @@ def check_keys(keys):
         run_pressed = True
 
     return (movedir, jump_pressed, run_pressed)
+
+def check_collision(player_object, collisionmap, movedir):
+    """ Function for checking player collision. Checks player's rectangle's
+    different sides' coordinates depending on move direction."""
+    test_x_left = player_object.collision_box.x + player_object.speed_x
+    test_x_right = player_object.collision_box.right + player_object.speed_x
+    test_y_top = player_object.collision_box.y + player_object.collision_box.height
+    test_y_bottom = player_object.collision_box.y
+
+    # Check if player is jumping
+    if movedir == "UP":
+        test_y_top += player_object.speed_y
+        test_y_bottom += player_object.speed_y
+
+    # Generate coordinates that are checked from collisionmap
+    x_coord_left = test_x_left / collisionmap.tilewidth
+    x_coord_right = test_x_right / collisionmap.tilewidth
+    y_coord_top = (collisionmap.height * collisionmap.tileheight -
+        test_y_top) / collisionmap.tileheight
+    y_coord_bottom = (collisionmap.height * collisionmap.tileheight -
+        test_y_bottom) / collisionmap.tileheight
+
+    # Corner checks
+    top_right = collisionmap.get_tile_gid(x_coord_right, y_coord_top, 1)
+    top_left = collisionmap.get_tile_gid(x_coord_left, y_coord_top, 1)
+    bottom_right = collisionmap.get_tile_gid(x_coord_right, y_coord_bottom, 1)
+    bottom_left = collisionmap.get_tile_gid(x_coord_left, y_coord_bottom, 1)
+
+    # If there's anything but 0 in GIDs' of those tiles, return True because collision happened
+    if top_right == 0 and top_left == 0 and bottom_right == 0 and bottom_left == 0:
+        return False
+    else:
+        return True
+
+
+
+
+    

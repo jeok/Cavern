@@ -53,8 +53,8 @@ class Player():
         self.speed_y = 0
         self.x = x
         self.y = y
-        self.size_x = 16
-        self.size_y = 16
+        self.size_x = 10
+        self.size_y = 10
 
         self.anim_state = "idle"
         # Create a rectangle for collision detection
@@ -68,8 +68,7 @@ class Player():
         elif movement_direction == "RIGHT":
             self.speed_x = 1
         if jump_pressed:
-            self_speed_y = 30
-            print(jump_pressed)
+            self.speed_y = 5
 
     def update(self, collisionmap, GRAVITY):
         """
@@ -84,36 +83,20 @@ class Player():
 
         # If player's going left, boundaries need to aknowledge player's size_x
         if self.speed_x > 0:
-            test_x = self.collision_box.right + self.speed_x
-            if collisionmap.get_tile_gid(test_x / collisionmap.tilewidth,
-                                         (collisionmap.height * collisionmap.tileheight - self.collision_box.y) / collisionmap.tileheight, 1) == 0:
+            if not game_utils.check_collision(self, collisionmap, "RIGHT"):
                 self.x += self.speed_x
         elif self.speed_x < 0:
-            test_x = self.collision_box.x + self.speed_x
-            if collisionmap.get_tile_gid(test_x / collisionmap.tilewidth,
-                                         (collisionmap.height * collisionmap.tileheight - self.collision_box.y) / collisionmap.tileheight, 1) == 0:
+            if not game_utils.check_collision(self, collisionmap, " "):
                 self.x += self.speed_x
-
+        if self.speed_y > 0:
+            if not game_utils.check_collision(self, collisionmap, "UP"):
+                self.y += self.speed_y
         if self.speed_y < 0:
-            test_y = self.collision_box.y + self.speed_y
-            if collisionmap.get_tile_gid(self.x / collisionmap.tilewidth,
-                                         (collisionmap.height * collisionmap.tileheight - test_y) / collisionmap.tileheight, 1) == 0:
+            if not game_utils.check_collision(self, collisionmap, "UP"):
                 self.y += self.speed_y
-            elif (collisionmap.get_tile_gid(self.x / collisionmap.tilewidth,
-                                            (collisionmap.height * collisionmap.tileheight - test_y) / collisionmap.tileheight, 1) == 1) and (collisionmap.get_tile_gid(self.x / collisionmap.tilewidth, (collisionmap.height * collisionmap.tileheight - self.y) / collisionmap.tileheight, 1) == 0):
-                self.speed.y = self.y % collisionmap.tileheight
-                self.y += self.speed_y
+            else:
+               self.speed_y = - 1 * (self.y % collisionmap.tileheight)
 
-#		if self.speed_y > 0:
-#			self.x += self.speed_y
-#			test_y = self.collision_box.y + self.collision_box.height + self.speed_y
-#			if collisionmap.get_tile_gid(self.x / collisionmap.tilewidth,
-#					(collisionmap.height * collisionmap.tileheight - test_y) / collisionmap.tileheight, 1) == 0:
-#				self.y += self.speed_y
-#			elif (collisionmap.get_tile_gid(self.x / collisionmap.tilewidth,
-#					(collisionmap.height * collisionmap.tileheight - test_y) / collisionmap.tileheight, 1) == 1) and (collisionmap.get_tile_gid(self.x / collisionmap.tilewidth, (collisionmap.height * collisionmap.tileheight - self.y) / collisionmap.tileheight, 1) == 0):
-#				self.speed.y = collisionmap.tileheight - ((self.collision_box.y + self.collision_box.height) % collisionmap.tileheight)
-#				self.y += self.speed_y
 
         self.collision_box.updateposition(self.x, self.y)
 
